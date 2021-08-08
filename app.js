@@ -16,10 +16,13 @@ app.use(bodyParser.urlencoded({
 
 mongoose.connect("mongodb://localhost:27017/usersDB", {useNewUrlParser: true,useUnifiedTopology: true});
 
-const userSchema ={
+const userSchema = new mongoose.Schema({
     email: String,
     password: String
-};
+});
+
+const secret = "Thisisourlittlesecret."
+userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"]});
 
 const User = mongoose.model("User",userSchema);
 
